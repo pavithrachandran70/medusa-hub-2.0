@@ -24,10 +24,10 @@ Add wishlist feature for authenticated customers to save, view and manage produc
    - focus: Include integration tests for API endpoints, unit tests for idempotency logic, and E2E tests for UI flows including empty state.
 6. [x] **merge_pack (pack)** _(auto)_ — Loop feature_with_architecture: Deterministic merged_plan.md from ordered specs and story summaries.
 7. [x] **critic (consistency_check)** — Verify consistency between database schema in HLD, API contracts in specs, and frontend integration across requirements, breakdown and stories.
-8. [ ] **architect_gate (review)** _(auto)_ — Human approval of specs and this plan before Dev.
-9. [ ] **dev** _(auto)_ — Loop delivery.
-10. [ ] **pre_pr_qa** _(auto)_ — Loop delivery.
-11. [ ] **open_pr** _(auto)_ — Loop delivery.
+8. [x] **architect_gate (review)** _(auto)_ — Human approval of specs and this plan before Dev.
+9. [x] **dev** _(auto)_ — Loop delivery.
+10. [x] **pre_pr_qa** _(auto)_ — Loop delivery.
+11. [x] **open_pr** _(auto)_ — Loop delivery.
 12. [ ] **pr_review** _(auto)_ — Loop delivery.
 13. [ ] **merge** _(auto)_ — Loop delivery.
 

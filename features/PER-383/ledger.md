@@ -12,3 +12,4 @@ JSON:{"key": "tracker:blocks:PER-383:PER-392:PER-394", "intent": "add_blocker", 
 JSON:{"key": "tracker:blocks:PER-383:PER-393:PER-394", "intent": "add_blocker", "result": "PER-393 blocks PER-394", "at": "2026-11-23T11:22:58.564191+00:00"}
 JSON:{"key": "tracker:summary:PER-383", "intent": "add_comment", "result": "sub-issue summary", "at": "2026-11-23T11:22:59.078868+00:00"}
 JSON:{"key": "tracker:published:PER-383", "intent": "publish_subissues", "result": ["PER-392", "PER-393", "PER-394"], "at": "2026-11-23T11:22:59.079944+00:00"}
+JSON:{"key": "codehost:open-pr:PER-383:medusa-appli", "intent": "open_pr", "result": "1", "at": "2026-11-23T12:31:13.432162+00:00"}

@@ -1,15 +1,15 @@
 ---
 schema_version: 1
 key: PER-383
-status: in_development
-current_node: dev
+status: pr_reviewed
+current_node: pr_review
 track: standard
 involved_repos:
 - medusa-appli
 depends_on: []
 owner: pavc
 lease_until: '2026-11-25T11:22:48.111847+00:00'
-revision: 67
+revision: 71
 hub_sha: null
 ticket_hash: fe26bafa32f51cfc
 jira_hash: fe26bafa32f51cfc
@@ -33,10 +33,11 @@ pr_ids:
   hub_plan: '1'
   hub_arch: '4'
   hub: '4'
-waiting_for: null
-tokens_in: 1845156
-tokens_out: 74857
-cost_anthropic_usd: 6.658015
+  medusa-appli: '1'
+waiting_for: feature_pr_human
+tokens_in: 1873595
+tokens_out: 74864
+cost_anthropic_usd: 6.743437
 cursor_tokens_in: 596825
 cursor_tokens_out: 91752
 cursor_cache_read_tokens: 15121024
@@ -320,6 +321,24 @@ history:
 - node: dev
   note: done 03-medusa-appli
   at: '2026-11-23T12:31:01.934590+00:00'
+- node: pre_pr_qa
+  note: report written
+  at: '2026-11-23T12:31:06.274833+00:00'
+- node: open_pr
+  note: push medusa-appli ok
+  at: '2026-11-23T12:31:15.005868+00:00'
+- node: open_pr
+  note: PRs opened medusa-appli:1
+  at: '2026-11-23T12:31:15.005910+00:00'
+- node: pr_review
+  note: 'cross-repo check medusa-appli: no contract used by other repos is touched'
+  at: '2026-11-23T12:31:21.559519+00:00'
+- node: pr_review
+  note: diff loaded medusa-appli chars=59441
+  at: '2026-11-23T12:31:22.505378+00:00'
+- node: pr_review
+  note: awaiting feature_pr_human
+  at: '2026-11-23T12:31:33.868046+00:00'
 ---
 
 # Feature state
