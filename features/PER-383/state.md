@@ -9,7 +9,7 @@ involved_repos:
 depends_on: []
 owner: pavc
 lease_until: '2026-11-25T11:22:48.111847+00:00'
-revision: 66
+revision: 67
 hub_sha: null
 ticket_hash: fe26bafa32f51cfc
 jira_hash: fe26bafa32f51cfc
@@ -37,9 +37,9 @@ waiting_for: null
 tokens_in: 1845156
 tokens_out: 74857
 cost_anthropic_usd: 6.658015
-cursor_tokens_in: 321236
-cursor_tokens_out: 50308
-cursor_cache_read_tokens: 10731136
+cursor_tokens_in: 596825
+cursor_tokens_out: 91752
+cursor_cache_read_tokens: 15121024
 cursor_cache_write_tokens: 0
 history:
 - node: intake
@@ -317,6 +317,9 @@ history:
 - node: dev
   note: done 02-medusa-appli
   at: '2026-11-23T12:14:04.657681+00:00'
+- node: dev
+  note: done 03-medusa-appli
+  at: '2026-11-23T12:31:01.934590+00:00'
 ---
 
 # Feature state

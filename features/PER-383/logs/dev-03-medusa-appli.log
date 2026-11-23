@@ -1,0 +1,17 @@
+I'll start by reading the story and the code context so the implementation stays scoped to what PER-383 story 03 asks for.
+The story adds product details and prices to wishlist responses, plus integration tests. I'll inspect the existing wishlist service and how this repo calculates prices.
+Wishlist listing already returns the product title and thumbnail. I'll add variant prices from the pricing module, using the store's currency and the customer's groups, and cover that in the integration tests.
+Wishlist list responses now include each product's variants and a calculated price, and the store wishlist integration tests cover that behavior.
+
+`listWishlistItems` still loads the product title and thumbnail in one query. It then loads every variant in a second query and calls the pricing module once for those price sets. The price context is the store's default currency, the store's default region when one is set, and the customer's groups. Each variant comes back with `calculated_price.amount` and `calculated_price.currency_code`. The pricing module takes price-set ids and a `context` object, so the calculation follows that API.
+
+Store wishlist integration tests now cover sign-in persistence, an empty list, product name, thumbnail, and price, duplicate adds, and 401s on POST, GET, and DELETE without a customer token. The store's default currency in those tests is USD, matching the fixture prices.
+
+**Tests:** `yarn test:integration __tests__/wishlist` in `integration-tests/http` — 19 passed (store and admin).
+
+**Files changed**
+- `packages/medusa/src/services/wishlist.ts`
+- `packages/medusa/src/models/wishlist.ts`
+- `packages/medusa/AGENTS.md`
+- `integration-tests/http/__tests__/wishlist/store/wishlist.spec.ts`
+- `.changeset/wishlist-product-details.md`
