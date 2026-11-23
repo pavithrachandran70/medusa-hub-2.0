@@ -12,7 +12,7 @@ A cache invalidation fix in one repo that updates the batch inventory location l
 
 ## Steps
 
-1. [ ] **analyst (inline_story)** — Turn the ticket into a testable inline story with clear Given/When/Then and tech notes for the cache invalidation pattern.
+1. [x] **analyst (inline_story)** — Turn the ticket into a testable inline story with clear Given/When/Then and tech notes for the cache invalidation pattern.
    - focus: Focus on the cache invalidation mechanism: which query key to invalidate, when to trigger it (after mutation success), and the existing cache patterns in the codebase.
 2. [ ] **architect_gate (review)** _(auto)_ — Human approval of specs and this plan before Dev.
 3. [ ] **dev** _(auto)_ — Loop delivery.

@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "key": "PER-391",
+  "source": "llm",
+  "summary": "A cache invalidation fix in one repo that updates the batch inventory location levels mutation to clear the query cache after a successful update, ensuring the UI reflects the new quantity immediately.",
+  "track_hint": "standard",
+  "loop": "quick_fix",
+  "delivery": "delivery",
+  "pr_fix": [
+    "pr_fix_minor",
+    "pr_fix_moderate"
+  ],
+  "loops": [
+    "quick_fix",
+    "delivery",
+    "pr_fix_minor",
+    "pr_fix_moderate"
+  ],
+  "steps": [
+    {
+      "node": "analyst",
+      "activity": "inline_story",
+      "why": "Turn the ticket into a testable inline story with clear Given/When/Then and tech notes for the cache invalidation pattern.",
+      "instructions": "Focus on the cache invalidation mechanism: which query key to invalidate, when to trigger it (after mutation success), and the existing cache patterns in the codebase.",
+      "auto": false,
+      "status": "done",
+      "rerun": false
+    },
+    {
+      "node": "architect_gate",
+      "activity": "review",
+      "why": "Human approval of specs and this plan before Dev.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "dev",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "pre_pr_qa",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "open_pr",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "pr_review",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "merge",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    }
+  ],
+  "skipped": [
+    {
+      "node": "tpm_gate",
+      "why": "Scope is clear: invalidate the inventory item levels query cache after the batch update mutation succeeds."
+    },
+    {
+      "node": "architect",
+      "why": "No new components, interfaces, or contracts; this is a cache invalidation fix inside existing mutation logic."
+    },
+    {
+      "node": "scrum_master",
+      "why": "One implementable story; no breakdown needed."
+    },
+    {
+      "node": "designer",
+      "why": "The developer can code this from the inline story; cache invalidation follows an established pattern and does not need a file-by-file plan."
+    },
+    {
+      "node": "test_architect",
+      "why": "The ticket already states the regression test requirement in AC6; the analyst will capture it in the inline story."
+    },
+    {
+      "node": "critic",
+      "why": "Only one spec document (the inline story); no cross-artifact consistency to check."
+    }
+  ],
+  "suggested_roles": [],
+  "suggested_loops": [],
+  "checks": [
+    {
+      "line": "N1",
+      "applies": false,
+      "why": "No new or changed API endpoint, parameter, field, schema, table, event, or config; the mutation already exists and its signature stays the same.",
+      "feedback_id": ""
+    },
+    {
+      "line": "N2",
+      "applies": false,
+      "why": "Cache invalidation follows an existing pattern; the developer can identify the mutation file and the cache key to invalidate from the ticket and the analyst's tech notes.",
+      "feedback_id": ""
+    },
+    {
+      "line": "N3",
+      "applies": false,
+      "why": "One atomic fix: add cache invalidation after the batch mutation succeeds; no separate stories.",
+      "feedback_id": ""
+    }
+  ],
+  "notes": [],
+  "created_at": "2026-11-23T10:31:12.285776+00:00",
+  "version": 1,
+  "trigger": "ticket",
+  "gate": null,
+  "feedback": [],
+  "feedback_errors": [],
+  "seen_feedback_ids": [],
+  "change_summary": "",
+  "changes": null,
+  "addressed": [],
+  "unresolved_questions": [],
+  "requires_review": true
+}
