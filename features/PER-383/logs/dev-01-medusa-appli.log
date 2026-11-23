@@ -1,0 +1,5 @@
+I'll start by reading the story and its code context so the change stays limited to what PER-383 asks for.
+The story specifies a wishlist model, migration, service, and tests. I’ll check how this repo actually defines models, migrations, and services so those files fit the existing patterns.
+Medusa stores customer and product ids as text, and models live in modules, so the wishlist table and service will follow that instead of a standalone MikroORM uuid entity. I'll add the schema, service, and tests, and install dependencies so the suite can run.
+
+Cursor agent timed out

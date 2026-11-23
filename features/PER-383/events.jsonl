@@ -36,3 +36,4 @@
 {"at": "2026-11-23T10:42:16.563654+00:00", "node": "spec_fixer", "event": "llm_ok", "model": "claude-sonnet-4-5-20250929", "in": 66308, "out": 6746, "cache_read": 0, "usd": 0.300114, "ms": 85965, "ok": true, "dry_run": false, "error": null}
 {"at": "2026-11-23T10:42:48.065059+00:00", "node": "spec_fixer", "event": "llm_ok", "model": "claude-sonnet-4-5-20250929", "in": 66548, "out": 1413, "cache_read": 0, "usd": 0.220839, "ms": 31413, "ok": true, "dry_run": false, "error": null}
 {"at": "2026-11-23T10:44:14.324073+00:00", "node": "critic", "event": "llm_ok", "model": "claude-sonnet-4-5-20250929", "in": 99332, "out": 1559, "cache_read": 0, "usd": 0.321381, "ms": 31962, "ok": true, "dry_run": false, "error": null}
+{"at": "2026-11-23T11:53:17.666943+00:00", "node": "dev", "event": "cursor_run", "ok": false, "status": "timeout", "error": "Cursor agent timed out", "story": "01-medusa-appli", "model": "Grok 4.7 256K High", "usage": null}

@@ -1,27 +1,30 @@
 ---
 schema_version: 1
 key: PER-383
-status: waiting_architect_review
-current_node: architect_gate
+status: in_development
+current_node: dev
 track: standard
 involved_repos:
 - medusa-appli
 depends_on: []
 owner: pavc
-lease_until: '2026-11-25T10:18:11.756952+00:00'
-revision: 31
+lease_until: '2026-11-25T11:22:48.111847+00:00'
+revision: 65
 hub_sha: null
 ticket_hash: fe26bafa32f51cfc
 jira_hash: fe26bafa32f51cfc
-tpm_approved: false
-specs_locked: false
+tpm_approved: true
+specs_locked: true
 skills_lock:
   bmad: 1cbcfa272fe65787c06a1fa164a901f46117cca7
 stories:
 - 01-medusa-appli
 - 02-medusa-appli
 - 03-medusa-appli
-child_ticket_keys: []
+child_ticket_keys:
+- PER-392
+- PER-393
+- PER-394
 critic_iterations: 2
 dev_retries: 0
 pr_revision_rounds: 0
@@ -30,7 +33,7 @@ pr_ids:
   hub_plan: '1'
   hub_arch: '4'
   hub: '4'
-waiting_for: architect_review
+waiting_for: null
 tokens_in: 1845156
 tokens_out: 74857
 cost_anthropic_usd: 6.658015
@@ -292,6 +295,25 @@ history:
 - node: architect_gate
   note: awaiting human hub PR approval
   at: '2026-11-23T10:44:40.004335+00:00'
+- node: architect_gate
+  note: approved via hub PR (reconcile)
+  at: '2026-11-23T11:22:48.037677+00:00'
+- node: architect_gate
+  note: "forge unlocked architect_review \u2192 resume"
+  at: '2026-11-23T11:22:48.111911+00:00'
+- node: dev
+  note: 'sub-issues created from the approved breakdown: PER-392, PER-393, PER-394'
+  at: '2026-11-23T11:22:59.080234+00:00'
+- node: dev
+  note: starting
+  at: '2026-11-23T11:22:59.080290+00:00'
+- node: dev
+  note: 'not checked before PR, commands empty in project.yaml: repos.medusa-appli.commands.test,
+    repos.medusa-appli.commands.lint'
+  at: '2026-11-23T11:22:59.080329+00:00'
+- node: dev
+  note: done 01-medusa-appli (verify-ok; agent status=timeout)
+  at: '2026-11-23T11:53:19.602498+00:00'
 ---
 
 # Feature state

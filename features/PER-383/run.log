@@ -90,3 +90,8 @@
 2026-11-23T10:44:14.447031+00:00 heartbeat architect_gate
 2026-11-23T10:44:14.447361+00:00 node start architect_gate
 2026-11-23T10:44:40.004545+00:00 node end architect_gate waiting=architect_review
+2026-11-23T11:22:52.376235+00:00 heartbeat dev
+2026-11-23T11:22:52.376714+00:00 node start dev
+2026-11-23T11:23:16.456063+00:00 dev cursor 01-medusa-appli attempt=1
+2026-11-23T11:53:17.673384+00:00 warning: no test command configured for medusa-appli; verification skipped
+2026-11-23T11:53:17.685804+00:00 dev verify 01-medusa-appli PASS attempt=1
