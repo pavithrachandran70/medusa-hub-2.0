@@ -1,0 +1,31 @@
+I'll start by reading the story and the code context so the change stays limited to what PER-383 story 02 asks for.
+The story is store and admin wishlist API routes. I'll follow existing Medusa route patterns and the Story 1 service instead of the BMAD workflow.
+Store routes treat customer auth as optional, and admin routes already require a user. I'll follow those conventions and wire the wishlist handlers to the existing service.
+The wishlist tests failed before they reached the routes: Postgres rejected the connection because the client password was not a string. I'll check how this repo supplies database credentials.
+Store and admin wishlist endpoints are in place and covered by the HTTP tests.
+
+Customers manage their own list at `POST` and `GET /store/wishlist` and `DELETE /store/wishlist/:product_id`. Those routes require a customer session or bearer token and take the customer id from `req.auth_context.actor_id`. Adding the same product again returns the existing row with status 200. An empty list is `{ wishlist_items: [], count: 0 }`.
+
+Admins use `GET /admin/customers/:customer_id/wishlist` and `DELETE /admin/customers/:customer_id/wishlist/:product_id`. Admin routes already require a user (session, bearer, or API key). These two also check `customer:read` and `customer:update`.
+
+**Files changed**
+
+- `packages/medusa/src/api/store/wishlist/route.ts`
+- `packages/medusa/src/api/store/wishlist/[product_id]/route.ts`
+- `packages/medusa/src/api/store/wishlist/middlewares.ts`
+- `packages/medusa/src/api/store/wishlist/validators.ts`
+- `packages/medusa/src/api/admin/customers/[customer_id]/wishlist/route.ts`
+- `packages/medusa/src/api/admin/customers/[customer_id]/wishlist/[product_id]/route.ts`
+- `packages/medusa/src/api/admin/customers/middlewares.ts`
+- `packages/medusa/src/api/middlewares.ts`
+- `packages/medusa/src/services/wishlist.ts` (`WISHLIST_SERVICE`)
+- `packages/medusa/src/loaders/wishlist.ts`
+- `packages/medusa/AGENTS.md`
+- `integration-tests/http/__tests__/wishlist/store/wishlist.spec.ts`
+- `integration-tests/http/__tests__/wishlist/admin/wishlist.spec.ts`
+- `.changeset/wishlist-api.md`
+
+**Tests**
+
+- Wishlist HTTP suites: 13 passed.
+- `packages/medusa` unit tests matching `src`: 206 passed.The middleware unit tests finished successfully: 206 passed, including the check that each route middleware collection is registered only once.

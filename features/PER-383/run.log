@@ -95,3 +95,7 @@
 2026-11-23T11:23:16.456063+00:00 dev cursor 01-medusa-appli attempt=1
 2026-11-23T11:53:17.673384+00:00 warning: no test command configured for medusa-appli; verification skipped
 2026-11-23T11:53:17.685804+00:00 dev verify 01-medusa-appli PASS attempt=1
+2026-11-23T11:53:29.139666+00:00 dev cursor 02-medusa-appli attempt=1
+2026-11-23T12:14:02.876936+00:00 dev cursor 02-medusa-appli usage model=Grok 4.7 256K High in=321236 out=50308 cache_read=10731136 cache_write=0 ms=1222694
+2026-11-23T12:14:02.882185+00:00 warning: no test command configured for medusa-appli; verification skipped
+2026-11-23T12:14:02.884755+00:00 dev verify 02-medusa-appli PASS attempt=1
