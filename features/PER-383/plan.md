@@ -1,4 +1,4 @@
-# Plan — PER-383 (v1)
+# Plan — PER-383 (v2)
 
 - made from: ticket
 - source: LLM planner
@@ -8,22 +8,22 @@
 - delivery: delivery
 - PR fixes run automatically: pr_fix_minor, pr_fix_moderate (other PR comments go to a person)
 
-Customer wishlist feature with add/view/remove operations, requiring new API endpoints, database schema for wishlist storage, and UI components across product and wishlist pages; feature_with_architecture fits because it adds new REST endpoints for wishlist CRUD and a new database table to persist wishlist items.
+Add wishlist feature for authenticated customers to save, view and manage products across sessions; needs database schema, API endpoints and UI components, so feature_with_architecture fits.
 
 ## Steps
 
-1. [ ] **analyst (requirements)** — Define clear requirements for wishlist operations, authentication constraints, and UI behaviors.
-   - focus: Focus on the customer-wishlist relationship, persistence requirements, and the add/view/remove operations with their edge cases (duplicates, empty states).
-2. [ ] **architect (hld)** — Design the wishlist API endpoints, database schema, and integration with existing customer and product modules.
-   - focus: Define REST endpoints for wishlist CRUD operations, wishlist_item schema with customer_id and product_id, and how it integrates with the customer module for authentication.
-3. [ ] **scrum_master (breakdown)** — Break down into implementable stories: backend (API + DB), frontend (product listing integration), frontend (wishlist page), and tests.
-   - focus: Separate backend API and schema from UI components; product listing wishlist button is one story, dedicated wishlist page is another.
-4. [ ] **designer (lld)** — Provide file-level implementation plans for each story covering API routes, database migrations, service layer, and UI components.
-   - focus: Detail the wishlist module structure, API route handlers, database entity definitions, and React component files for the wishlist icon and wishlist page.
-5. [ ] **test_architect (tests)** — Map acceptance criteria to test cases covering API operations, authentication, duplicate handling, and empty states.
-   - focus: Cover API tests for CRUD operations, integration tests for customer-wishlist association, and UI tests for add/remove actions and empty state display.
+1. [ ] **analyst (requirements)** — Define requirements for wishlist persistence, API contracts and UI behavior.
+   - focus: Focus on authentication requirements, data persistence across sessions, and idempotency for duplicate adds.
+2. [ ] **architect (hld)** — Design database schema for wishlist items, REST/GraphQL API endpoints, and integration with existing customer and product modules.
+   - focus: Define wishlist table schema with customer and product foreign keys, API endpoints for add/remove/list operations, and authentication middleware requirements.
+3. [ ] **scrum_master (breakdown)** — Break down into backend (schema, API), frontend (UI components, state management), and testing stories.
+   - focus: Split into: 1) database migration and API layer, 2) UI components and integration, 3) tests covering all acceptance criteria.
+4. [ ] **designer (lld)** — Provide file-level implementation plans for database models, API routes, frontend components and state management.
+   - focus: Detail migration files, service layer methods, React components for wishlist icon/page, and API client calls.
+5. [ ] **test_architect (tests)** — Map test cases to acceptance criteria covering API operations, authentication, idempotency, persistence and UI states.
+   - focus: Include integration tests for API endpoints, unit tests for idempotency logic, and E2E tests for UI flows including empty state.
 6. [ ] **merge_pack (pack)** _(auto)_ — Loop feature_with_architecture: Deterministic merged_plan.md from ordered specs and story summaries.
-7. [ ] **critic (consistency_check)** — Ensure consistency between HLD API contracts, story-level schemas, and test coverage for all acceptance criteria.
+7. [ ] **critic (consistency_check)** — Verify consistency between database schema in HLD, API contracts in specs, and frontend integration across requirements, breakdown and stories.
 8. [ ] **architect_gate (review)** _(auto)_ — Human approval of specs and this plan before Dev.
 9. [ ] **dev** _(auto)_ — Loop delivery.
 10. [ ] **pre_pr_qa** _(auto)_ — Loop delivery.
@@ -33,7 +33,7 @@ Customer wishlist feature with add/view/remove operations, requiring new API end
 
 ## Skipped roles
 
-- **tpm_gate** — Ticket clearly defines scope (authenticated customers only), acceptance criteria (10 specific behaviors), and boundaries (no sharing or public wishlists mentioned).
+- **tpm_gate** — Ticket clearly defines scope (authenticated customer wishlist) and acceptance criteria (10 specific testable requirements).
 
 ## Planner notes
 
