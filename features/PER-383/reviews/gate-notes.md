@@ -1,0 +1,17 @@
+# Critic notes for PER-383
+
+Not blocking. For whoever reviews the specs at the gate.
+
+## Decisions the fixer made (4)
+
+- **C2** · `stories/01-medusa-appli.md` › ## File Plan › packages/medusa/src/services/wishlist.ts › Function: addToWishlist: Customer and product validation is deferred to the existing module services. The exact method names on `ICustomerModuleService` and `IProductModuleService` are not shown in the available repo outline.
+- **C3** · `stories/01-medusa-appli.md` › ## File Plan › **Function:** `addToWishlist: ID generation is handled by MikroORM's auto-generation by omitting the `id` field from the `create()` call, or by importing `generateEntityId` from `@medusajs/utils` if explicit ID generation is needed. The LLD notes to "verify ID generation pattern in existing services" instead of calling …
+- **C5** · `stories/03-medusa-appli.md` › ## File Plan › packages/medusa/src/services/wishlist.ts › Function: listWishlistItems: Store the full container in the service by adding `private container: MedusaContainer` as a class field and `this.container = container` in the constructor, following the pattern where services need to resolve modules dynamically for price calculation workflows that the constructor does not know …
+- **C6** · `stories/03-medusa-appli.md` › ## File Plan › packages/medusa/src/services/wishlist.ts › **Function:** `listWishlistItems: Use `calculatePricesWorkflow` from `@medusajs/core-flows` with workflow pattern `.run({ input: { variant_ids, context } })` instead of a direct pricing module method, following the HLD's mention of `calculatePricesWorkflow` and the workflow patterns shown in cart tests. The exact input/output …
+
+## Notes (4)
+
+- **C7** · `specs/1.md` › ## File Touch List: The spec lists the migration file with `<timestamp>` as a placeholder, but does not say how to generate it or when to run it. _(the critic marked it a note)_
+- **C9** · `stories/01-medusa-appli.md` › ## File Plan › packages/medusa/src/services/wishlist.ts › Imports and Constructor: Story 1's constructor stores module services as instance fields (`this.customerModuleService`, `this.productModuleService`, `this.manager`) with a constructor that takes `container: MedusaContainer`, but the existing … _(fixer: The repo outline does not show any existing files in `packages/medusa/src/services/` or `packages/modules/customer/services/` to verify the DI registration pattern. The outline stops before listing those directories. The fixture route at `integration-tests/http/__fixtures__/feature-flag/src/api/custom/route.ts` shows route-level DI with `req.scope.resolve()`, but not how services are registered in the DI container. Without the registration pattern from an existing service file, I cannot write the correct `export const WISHLIST_SERVICE = "wishlistService"` constant or the note showing the registration pattern.)_
+- **C13** · `stories/01-medusa-appli.md` › ## Tests › integration-tests/http/__tests__/wishlist/store/wishlist.spec.ts: The test uses `dbConnection.query` to intercept queries for N+1 detection, but the available repo outline does not show whether `dbConnection` has a `query` method or what the actual query logging API is in this … _(the critic marked it a note)_
+- **C15** · `stories/01-medusa-appli.md` › ## File Plan › packages/medusa/src/services/wishlist.ts › Function: addToWishlist: The idempotency logic catches a unique constraint violation by checking `error.code === "23505"` (PostgreSQL error code), but MikroORM may wrap or transform the error. _(the critic marked it a note)_

@@ -12,18 +12,18 @@ Add wishlist feature for authenticated customers to save, view and manage produc
 
 ## Steps
 
-1. [ ] **analyst (requirements)** — Define requirements for wishlist persistence, API contracts and UI behavior.
+1. [x] **analyst (requirements)** — Define requirements for wishlist persistence, API contracts and UI behavior.
    - focus: Focus on authentication requirements, data persistence across sessions, and idempotency for duplicate adds.
-2. [ ] **architect (hld)** — Design database schema for wishlist items, REST/GraphQL API endpoints, and integration with existing customer and product modules.
+2. [x] **architect (hld)** — Design database schema for wishlist items, REST/GraphQL API endpoints, and integration with existing customer and product modules.
    - focus: Define wishlist table schema with customer and product foreign keys, API endpoints for add/remove/list operations, and authentication middleware requirements.
-3. [ ] **scrum_master (breakdown)** — Break down into backend (schema, API), frontend (UI components, state management), and testing stories.
+3. [x] **scrum_master (breakdown)** — Break down into backend (schema, API), frontend (UI components, state management), and testing stories.
    - focus: Split into: 1) database migration and API layer, 2) UI components and integration, 3) tests covering all acceptance criteria.
-4. [ ] **designer (lld)** — Provide file-level implementation plans for database models, API routes, frontend components and state management.
+4. [x] **designer (lld)** — Provide file-level implementation plans for database models, API routes, frontend components and state management.
    - focus: Detail migration files, service layer methods, React components for wishlist icon/page, and API client calls.
-5. [ ] **test_architect (tests)** — Map test cases to acceptance criteria covering API operations, authentication, idempotency, persistence and UI states.
+5. [x] **test_architect (tests)** — Map test cases to acceptance criteria covering API operations, authentication, idempotency, persistence and UI states.
    - focus: Include integration tests for API endpoints, unit tests for idempotency logic, and E2E tests for UI flows including empty state.
-6. [ ] **merge_pack (pack)** _(auto)_ — Loop feature_with_architecture: Deterministic merged_plan.md from ordered specs and story summaries.
-7. [ ] **critic (consistency_check)** — Verify consistency between database schema in HLD, API contracts in specs, and frontend integration across requirements, breakdown and stories.
+6. [x] **merge_pack (pack)** _(auto)_ — Loop feature_with_architecture: Deterministic merged_plan.md from ordered specs and story summaries.
+7. [x] **critic (consistency_check)** — Verify consistency between database schema in HLD, API contracts in specs, and frontend integration across requirements, breakdown and stories.
 8. [ ] **architect_gate (review)** _(auto)_ — Human approval of specs and this plan before Dev.
 9. [ ] **dev** _(auto)_ — Loop delivery.
 10. [ ] **pre_pr_qa** _(auto)_ — Loop delivery.

@@ -1,0 +1,531 @@
+{
+  "items": [
+    {
+      "id": "C1",
+      "file": "stories/01-medusa-appli.md",
+      "section": "## File Plan \u203a **Function:** `addToWishlist",
+      "quote": "const wishlist = this.manager_.create(Wishlist, {",
+      "match": [
+        [
+          "integration-tests/http/__fixtures__/feature-flag/src/modules/custom/services/module-service.ts",
+          ""
+        ]
+      ],
+      "problem": "The LLD shows `this.manager_.create(Wishlist, { ... })` and `this.manager_.persistAndFlush(wishlist)`, but MikroORM's EntityManager is injected as `manager` in this codebase's service constructors and used as `this.manager`, not `this.manager_`. The underscore suffix is not shown in any existing service code.",
+      "change": "Replace `this.manager_` with `this.manager` throughout the service implementation. Update the constructor to inject as `this.manager = container.resolve(\"manager\")`. Use `this.manager.create()`, `this.manager.persistAndFlush()`, `this.manager.findOne()`, `this.manager.find()`, and `this.manager.removeAndFlush()`.",
+      "status": "fixed",
+      "reason": "no longer raised in round 2",
+      "round": 1,
+      "decision": "",
+      "severity": "blocking",
+      "code_claim": true,
+      "quote_not_found": false,
+      "blocks_because": "Dev would use `this.manager_.create()` and `persistAndFlush()`, but the actual MikroORM EntityManager in this codebase uses `em.create()` and `em.persistAndFlush()` as instance methods. The service would fail to compile or run.",
+      "disputed": "",
+      "earlier": "",
+      "for_person": "",
+      "found_by_code": false,
+      "trail": [
+        "round 1: raised (blocking)",
+        "round 1: fix refused: section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `addToWishlist`` would drop sections: function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `removeFromWishlist`` would drop sections: function: addtowishlist, function: listwishlistitems, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `listWishlistItems`` would drop sections: function: addtowishlist, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); asked again",
+        "round 1: fix failed: fix refused: section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `addToWishlist`` would drop sections: function: addtowishlist, function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `removeFromWishlist`` would drop sections: function: addtowishlist, function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `listWishlistItems`` would drop sections: function: addtowishlist, function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`)",
+        "round 2: fixed: no longer raised in round 2"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    },
+    {
+      "id": "C2",
+      "file": "stories/01-medusa-appli.md",
+      "section": "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Function: addToWishlist",
+      "quote": "const customer = await this.customerModuleService_.retrieveCustomer(customerId)",
+      "match": [
+        [
+          "stories/01-medusa-appli.md",
+          "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Imports and Constructor"
+        ]
+      ],
+      "problem": "The constructor sets `this.customerModuleService` and `this.productModuleService` (no underscore), but the function implementations in `addToWishlist` still reference `this.customerModuleService_` and `this.productModuleService_` with underscores.",
+      "change": "In the `addToWishlist` function implementation, replace `this.customerModuleService_` with `this.customerModuleService` and `this.productModuleService_` with `this.productModuleService` throughout. Apply the same change to `removeFromWishlist` and `listWishlistItems` wherever they reference these fields.",
+      "status": "fixed",
+      "reason": "no longer raised in round 3",
+      "round": 2,
+      "decision": "Customer and product validation is deferred to the existing module services. The exact method names on `ICustomerModuleService` and `IProductModuleService` are not shown in the available repo outline. The LLD notes that validation should verify customer and product exist, but does not prescribe the exact method calls. The service implementation omits explicit validation calls in the code example and instead notes to \"verify exact methods in ICustomerModuleService and IProductModuleService\" and points to the relevant modules. This decision avoids inventing method signatures that may not exist, while preserving the validation requirement stated in AD-3.",
+      "severity": "blocking",
+      "code_claim": true,
+      "quote_not_found": false,
+      "blocks_because": "Dev would write `this.customerModuleService_.retrieveCustomer(customerId)` and `this.productModuleService_.retrieveProduct(productId)`, but the constructor now injects these without the underscore suffix as `this.customerModuleService` and `this.productModuleService`. The methods would fail to compile because the field names do not match.",
+      "disputed": "`integration-tests/http/__tests__/cart/store/cart.spec.ts` shows the real service injection pattern. At line ~90: `const cartModule = appContainer.resolve(Modules.CART)`. At line ~350: `const customerModule: ICustomerModuleService = appContainer.resolve(Modules.CUSTOMER)` and line ~360: `const productModule: IProductModuleService = appContainer.resolve(Modules.PRODUCT)`. Services are resolved directly from the container using `Modules.CUSTOMER` and `Modules.PRODUCT` constants, not injected as class fields. The LLD's constructor with `this.customerModuleService` and `this.productModuleService` does not match the pattern shown in the integration tests, where services are resolved inline when needed, not stored as instance fields. (its evidence quotes nothing found in the code it was shown)",
+      "earlier": "",
+      "for_person": "not sent to the fixer again: the critic keeps it and the fixer disputes it",
+      "found_by_code": false,
+      "trail": [
+        "round 1: raised (blocking)",
+        "round 1: the fixer decided: Customer and product validation is deferred to the existing module services. The exact method names on `ICustomerModuleService` and `IProductModuleService` are not shown in the available repo outline. The LLD notes that validation should verify customer and product exist, but does not prescribe the exact method calls. The service implementation omits explicit validation calls in the code example and instead notes to \"verify exact methods in ICustomerModuleService and IProductModuleService\" and points to the relevant modules. This decision avoids inventing method signatures that may not exist, while preserving the validation requirement stated in AD-3.",
+        "round 1: fix refused: section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `addToWishlist`` would drop sections: function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `removeFromWishlist`` would drop sections: function: addtowishlist, function: listwishlistitems, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `listWishlistItems`` would drop sections: function: addtowishlist, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); asked again",
+        "round 1: fix failed: fix refused: section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `addToWishlist`` would drop sections: function: addtowishlist, function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `removeFromWishlist`` would drop sections: function: addtowishlist, function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `listWishlistItems`` would drop sections: function: addtowishlist, function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`)",
+        "round 2: the critic called it C1, but C1 was about another place",
+        "round 2: the critic numbered it C1; kept as C2",
+        "round 2: raised again (blocking)",
+        "round 2: fix removed `this.manager_.findOne`, `this.manager_.removeAndFlush` with no item asking; asked again",
+        "round 2: the fixer disputes it: `integration-tests/http/__tests__/cart/store/cart.spec.ts` shows the real service injection pattern. At line ~90: `const cartModule = appContainer.resolve(Modules.CART)`. At line ~350: `const customerModule: ICustomerModuleService = appContainer.resolve(Modules.CUSTOMER)` and line ~360: `const productModule: IProductModuleService = appContainer.resolve(Modules.PRODUCT)`. Services are resolved directly from the container using `Modules.CUSTOMER` and `Modules.PRODUCT` constants, not injected as class fields. The LLD's constructor with `this.customerModuleService` and `this.productModuleService` does not match the pattern shown in the integration tests, where services are resolved inline when needed, not stored as instance fields. (its evidence quotes nothing found in the code it was shown)",
+        "round 2: for a person at the gate: not sent to the fixer again: the critic keeps it and the fixer disputes it",
+        "round 3: fixed: no longer raised in round 3"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    },
+    {
+      "id": "C3",
+      "file": "stories/01-medusa-appli.md",
+      "section": "## File Plan \u203a **Function:** `addToWishlist",
+      "quote": "this.generateId()",
+      "match": [
+        [
+          "hld.md",
+          "AD-3"
+        ]
+      ],
+      "problem": "The LLD calls `this.generateId()` without showing where this method is defined or imported. The HLD and breakdown do not mention ID generation, and the service implementation does not import any ID generation utility.",
+      "change": "Replace `id: this.generateId()` with a concrete approach: either import `{ generateEntityId }` from `@medusajs/utils` and use `id: generateEntityId(null, \"wishlist\")`, or rely on MikroORM's auto-generation by omitting the `id` field from the `create()` call. State in the notes that the exact ID generation pattern should match other entities in this codebase.",
+      "status": "fixed",
+      "reason": "no longer raised in round 2",
+      "round": 1,
+      "decision": "ID generation is handled by MikroORM's auto-generation by omitting the `id` field from the `create()` call, or by importing `generateEntityId` from `@medusajs/utils` if explicit ID generation is needed. The LLD notes to \"verify ID generation pattern in existing services\" instead of calling `this.generateId()`, which is not shown in any existing service code. This approach matches the pattern of letting the ORM handle primary key generation unless a framework utility is explicitly imported.",
+      "severity": "blocking",
+      "code_claim": false,
+      "quote_not_found": false,
+      "blocks_because": "Dev would call `this.generateId()` to create the primary key, but the LLD does not show where this method comes from. The service does not define it, and the specs do not import it. The service would fail to compile.",
+      "disputed": "",
+      "earlier": "",
+      "for_person": "",
+      "found_by_code": false,
+      "trail": [
+        "round 1: raised (blocking)",
+        "round 1: the fixer decided: ID generation is handled by MikroORM's auto-generation by omitting the `id` field from the `create()` call, or by importing `generateEntityId` from `@medusajs/utils` if explicit ID generation is needed. The LLD notes to \"verify ID generation pattern in existing services\" instead of calling `this.generateId()`, which is not shown in any existing service code. This approach matches the pattern of letting the ORM handle primary key generation unless a framework utility is explicitly imported.",
+        "round 1: fix refused: section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `addToWishlist`` would drop sections: function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `removeFromWishlist`` would drop sections: function: addtowishlist, function: listwishlistitems, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `listWishlistItems`` would drop sections: function: addtowishlist, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); asked again",
+        "round 1: fix failed: fix refused: section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `addToWishlist`` would drop sections: function: addtowishlist, function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `removeFromWishlist`` would drop sections: function: addtowishlist, function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`); section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `listWishlistItems`` would drop sections: function: addtowishlist, function: listwishlistitems, function: removefromwishlist, imports and constructor (a section that must go is declared with `REMOVE <id>: <section>`)",
+        "round 2: fixed: no longer raised in round 2"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    },
+    {
+      "id": "C4",
+      "file": "stories/02-medusa-appli.md",
+      "section": "## File Plan \u203a packages/medusa/src/api/store/wishlist/route.ts \u203a **Function:** POST",
+      "quote": "const wishlistService = req.scope.resolve(\"wishlistService\")",
+      "match": [
+        [
+          "stories/01-medusa-appli.md",
+          "packages/medusa/src/services/wishlist.ts"
+        ]
+      ],
+      "problem": "The route handler resolves `req.scope.resolve(\"wishlistService\")`, but Story 1 does not show the service registration in the DI container. The service file exports the class but does not show a `REGISTRATION_NAME` constant or container registration call.",
+      "change": "Add to Story 1's service implementation: export a registration name constant `export const REGISTRATION_NAME = \"wishlistService\"` and show the DI registration pattern used by other services in this codebase (verify in `packages/medusa/src/services/` for the exact pattern). In Story 2, use that registration name in `req.scope.resolve()`.",
+      "status": "fixed",
+      "reason": "confirmed in round 2",
+      "round": 1,
+      "decision": "",
+      "severity": "blocking",
+      "code_claim": true,
+      "quote_not_found": false,
+      "blocks_because": "Dev would resolve the service as `\"wishlistService\"`, but Story 1 does not show how the service is registered in the DI container. If the registration uses a different name or is missing, the route handler would throw at runtime.",
+      "disputed": "",
+      "earlier": "",
+      "for_person": "",
+      "found_by_code": false,
+      "trail": [
+        "round 1: raised (blocking)",
+        "round 1: unchecked: fixed in `stories/02-medusa-appli.md`, not checked yet",
+        "round 2: fixed: confirmed in round 2"
+      ],
+      "fix_rounds": [
+        1
+      ],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    },
+    {
+      "id": "C5",
+      "file": "stories/03-medusa-appli.md",
+      "section": "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Function: listWishlistItems",
+      "quote": "const pricingModule = this.container_.resolve(Modules.PRICING)",
+      "match": [
+        [
+          "stories/01-medusa-appli.md",
+          "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Imports and Constructor"
+        ]
+      ],
+      "problem": "Story 3 calls `this.container_.resolve(Modules.PRICING)` and `this.container_.resolve(Modules.STORE)`, but Story 1's constructor does not inject or store the container.",
+      "change": "In Story 1's constructor implementation, add `this.container = container` after the existing module service injections. Also add `private container: MedusaContainer` to the class field declarations at the top of the service class. This stores the full container for later use in Story 3.",
+      "status": "fixed",
+      "reason": "no longer raised in round 3",
+      "round": 2,
+      "decision": "Store the full container in the service by adding `private container: MedusaContainer` as a class field and `this.container = container` in the constructor, following the pattern where services need to resolve modules dynamically for price calculation workflows that the constructor does not know about at initialization time.",
+      "severity": "blocking",
+      "code_claim": true,
+      "quote_not_found": false,
+      "blocks_because": "Dev would use `this.container_.resolve(Modules.PRICING)` to inject the pricing module in the `listWishlistItems` enhancement, but Story 1's constructor does not store the container. The method would fail to compile or throw at runtime.",
+      "disputed": "",
+      "earlier": "",
+      "for_person": "",
+      "found_by_code": false,
+      "trail": [
+        "round 1: raised (blocking)",
+        "round 1: fix removed `cart/session`, `this.customerModuleService_`, `this.manager_.find` with no item asking; asked again",
+        "round 1: the fixer decided: Store the full container in the service constructor by adding `this.container = container` to Story 1's constructor implementation, following the pattern shown in the cart tests where workflows are run with `container` as context.",
+        "round 1: fix failed: fix refused: no change returned; section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `listWishlistItems`` removes `calculatedPrices`, `calculatedPrices.find`, `this.customerModuleService_`, `this.manager_.find`, which no item asks for",
+        "round 2: the critic numbered it C10; kept as C5",
+        "round 2: raised again (blocking)",
+        "round 2: fix removed `this.manager_.find` with no item asking; asked again",
+        "round 2: the fixer decided: Store the full container in the service by adding `private container: MedusaContainer` as a class field and `this.container = container` in the constructor, following the pattern where services need to resolve modules dynamically for price calculation workflows that the constructor does not know about at initialization time.",
+        "round 2: the fixer also rejected it (The existing code in `integration-tests/http/__tests__/cart/store/cart.spec.ts` shows `const container = getContainer()` and direct module resolution like `const cartModule = appContainer.resolve(Modules.CART)`, not `this.container_.resolve(Modules.PRICING)`. Services in the codebase use constructor injection of specific module services, not container storage. The cart tests resolve modules from `appContainer` in test setup, not from a stored container field inside services. Story 1's constructor already injects `ICustomerModuleService` and `IProductModuleService` as private fields per the ADLC spec, following the pattern shown in the codebase where services inject exactly what they need rather than storing the entire container.); its decision stands",
+        "round 2: fix failed: fix refused: no change returned; section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Function: listWishlistItems` removes `this.customerModuleService_`, `this.manager_.find`, which no item asks for",
+        "round 3: fixed: no longer raised in round 3"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    },
+    {
+      "id": "C6",
+      "file": "stories/03-medusa-appli.md",
+      "section": "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `listWishlistItems",
+      "quote": "const pricingModule = this.container_.resolve(Modules.PRICING)",
+      "match": [
+        [
+          "integration-tests/http/__tests__/cart/store/cart.spec.ts",
+          "lines showing no `calculatePrices` calls"
+        ]
+      ],
+      "problem": "Story 3 calls `pricingModule.calculatePrices({ variant_id: variantIds }, pricingContext)`, but the specs do not show this exact method signature on the pricing module. The HLD mentions `calculatePricesWorkflow` as an alternative, and the cart tests show pricing happening via workflows or other mechanisms, not via a direct `calculatePrices` method on a resolved module.",
+      "change": "Replace the direct `calculatePrices` call with the workflow pattern shown in the HLD: import `{ calculatePricesWorkflow }` from `@medusajs/core-flows`, and call `const { result } = await calculatePricesWorkflow(this.container).run({ input: { variant_ids: variantIds, context: pricingContext } })`. Use the workflow's output structure to populate `calculated_price` on each variant. Add a note: \"Verify exact workflow input/output structure in `packages/core/core-flows/src/product`.\"",
+      "status": "fixed",
+      "reason": "no longer raised in round 2",
+      "round": 1,
+      "decision": "Use `calculatePricesWorkflow` from `@medusajs/core-flows` with workflow pattern `.run({ input: { variant_ids, context } })` instead of a direct pricing module method, following the HLD's mention of `calculatePricesWorkflow` and the workflow patterns shown in cart tests. The exact input/output structure must be verified in `packages/core/core-flows/src/product` before implementation.",
+      "severity": "blocking",
+      "code_claim": true,
+      "quote_not_found": false,
+      "blocks_because": "Dev would call `pricingModule.calculatePrices()`, but the provided cart tests show no such method being called directly on a pricing module. The actual pricing API may differ, causing the service to fail at runtime.",
+      "disputed": "",
+      "earlier": "",
+      "for_person": "",
+      "found_by_code": false,
+      "trail": [
+        "round 1: raised (blocking)",
+        "round 1: fix removed `cart/session`, `this.customerModuleService_`, `this.manager_.find` with no item asking; asked again",
+        "round 1: the fixer decided: Use `calculatePricesWorkflow` from `@medusajs/core-flows` with workflow pattern `.run({ input: { variant_ids, context } })` instead of a direct pricing module method, following the HLD's mention of `calculatePricesWorkflow` and the workflow patterns shown in cart tests. The exact input/output structure must be verified in `packages/core/core-flows/src/product` before implementation.",
+        "round 1: fix failed: fix refused: no change returned; section `## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a **Function:** `listWishlistItems`` removes `calculatedPrices`, `calculatedPrices.find`, `this.customerModuleService_`, `this.manager_.find`, which no item asks for",
+        "round 2: fixed: no longer raised in round 2"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    },
+    {
+      "id": "C7",
+      "file": "specs/1.md",
+      "section": "## File Touch List",
+      "quote": "packages/medusa/src/migrations/<timestamp>-CreateWishlistTable.ts",
+      "match": [
+        [
+          "hld.md",
+          "AD-1"
+        ]
+      ],
+      "problem": "The spec lists the migration file with `<timestamp>` as a placeholder, but does not say how to generate it or when to run it. The HLD says \"Migration file: `packages/medusa/src/migrations/<timestamp>-CreateWishlistTable.ts`\" but gives no guidance on the timestamp format or migration execution.",
+      "change": "This is a standard pattern. The developer will generate the timestamp when creating the migration (usually via CLI or by following existing migration file naming). No change needed to the spec; it is acceptable to use `<timestamp>` as a placeholder.",
+      "status": "note",
+      "reason": "the critic marked it a note",
+      "round": 1,
+      "decision": "",
+      "severity": "note",
+      "code_claim": false,
+      "quote_not_found": false,
+      "blocks_because": "N/A",
+      "disputed": "",
+      "earlier": "",
+      "for_person": "",
+      "found_by_code": false,
+      "trail": [
+        "round 1: raised (note)",
+        "round 1: note: the critic marked it a note"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    },
+    {
+      "id": "C8",
+      "file": "stories/01-medusa-appli.md",
+      "section": "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Function: listWishlistItems",
+      "quote": "const wishlists = await this.manager_.find(",
+      "match": [
+        [
+          "stories/01-medusa-appli.md",
+          "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Imports and Constructor"
+        ]
+      ],
+      "problem": "The constructor sets `this.manager` (no underscore), but the function implementations still reference `this.manager_` with an underscore in `addToWishlist`, `removeFromWishlist`, and `listWishlistItems`.",
+      "change": "Replace `this.manager_` with `this.manager` throughout all three service methods: in `addToWishlist` (for `create`, `persistAndFlush`, `findOne`), in `removeFromWishlist` (for `findOne`, `removeAndFlush`), and in `listWishlistItems` (for `find`).",
+      "status": "fixed",
+      "reason": "no longer raised in round 3",
+      "round": 2,
+      "decision": "",
+      "severity": "blocking",
+      "code_claim": true,
+      "quote_not_found": false,
+      "blocks_because": "Dev would write `this.manager_.find(...)`, `this.manager_.create(...)`, and `this.manager_.persistAndFlush(...)` throughout the service methods, but the constructor now injects the EntityManager as `this.manager` without the underscore suffix. The database operations would fail to compile.",
+      "disputed": "Same reasoning as C2. The integration tests at `integration-tests/http/__tests__/cart/store/cart.spec.ts` show services are resolved from the container when needed (line ~90, ~350, ~360), not injected and stored as instance fields in a constructor. The pattern `this.manager` or `this.manager_` does not appear in the existing service examples shown in the outline or the fixture route at `integration-tests/http/__fixtures__/feature-flag/src/api/custom/route.ts`, which uses `req.scope.resolve()` for DI instead of a service class with a constructor. (its evidence quotes nothing found in the code it was shown)",
+      "earlier": "",
+      "for_person": "not sent to the fixer again: the critic keeps it and the fixer disputes it",
+      "found_by_code": false,
+      "trail": [
+        "round 2: the critic says it is a new problem",
+        "round 2: raised (blocking)",
+        "round 2: fix removed `this.manager_.findOne`, `this.manager_.removeAndFlush` with no item asking; asked again",
+        "round 2: the fixer disputes it: Same reasoning as C2. The integration tests at `integration-tests/http/__tests__/cart/store/cart.spec.ts` show services are resolved from the container when needed (line ~90, ~350, ~360), not injected and stored as instance fields in a constructor. The pattern `this.manager` or `this.manager_` does not appear in the existing service examples shown in the outline or the fixture route at `integration-tests/http/__fixtures__/feature-flag/src/api/custom/route.ts`, which uses `req.scope.resolve()` for DI instead of a service class with a constructor. (its evidence quotes nothing found in the code it was shown)",
+        "round 2: for a person at the gate: not sent to the fixer again: the critic keeps it and the fixer disputes it",
+        "round 3: fixed: no longer raised in round 3"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    },
+    {
+      "id": "C9",
+      "file": "stories/01-medusa-appli.md",
+      "section": "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Imports and Constructor",
+      "quote": "private customerModuleService: ICustomerModuleService",
+      "match": [
+        [
+          "repo-file/medusa-appli/integration-tests/http/__tests__/cart/store/cart.spec.ts",
+          "line ~350"
+        ]
+      ],
+      "problem": "Story 1's constructor stores module services as instance fields (`this.customerModuleService`, `this.productModuleService`, `this.manager`) with a constructor that takes `container: MedusaContainer`, but the existing cart test code shows services are resolved inline when needed, not injected via constructor and stored as fields.",
+      "change": "Remove the constructor and all instance field declarations. In each method (`addToWishlist`, `removeFromWishlist`, `listWishlistItems`), resolve the services and manager inline when needed, following the pattern `const customerModule = appContainer.resolve(Modules.CUSTOMER)` shown in the cart tests. For Story 2's route handlers, use `const wishlistService = req.scope.resolve(WISHLIST_SERVICE)` where `WISHLIST_SERVICE` is the registration name exported from this file. Add a note referencing the cart test pattern for the developer to follow.",
+      "status": "note",
+      "reason": "fixer: The repo outline does not show any existing files in `packages/medusa/src/services/` or `packages/modules/customer/services/` to verify the DI registration pattern. The outline stops before listing those directories. The fixture route at `integration-tests/http/__fixtures__/feature-flag/src/api/custom/route.ts` shows route-level DI with `req.scope.resolve()`, but not how services are registered in the DI container. Without the registration pattern from an existing service file, I cannot write the correct `export const WISHLIST_SERVICE = \"wishlistService\"` constant or the note showing the registration pattern.",
+      "round": 3,
+      "decision": "",
+      "severity": "blocking",
+      "code_claim": true,
+      "quote_not_found": false,
+      "blocks_because": "Dev would write a constructor with `this.customerModuleService = container.resolve(Modules.CUSTOMER)` and store module services as instance fields, but the existing pattern at line 350 of the cart test shows `const customerModule: ICustomerModuleService = appContainer.resolve(Modules.CUSTOMER)` \u2014 services are resolved inline when needed, not stored in the constructor. The service class would compile but not follow the codebase's DI pattern, and Story 2's routes would need a different resolution approach.",
+      "disputed": "",
+      "earlier": "",
+      "for_person": "",
+      "found_by_code": false,
+      "trail": [
+        "round 2: the critic says it is a new problem",
+        "round 2: raised (blocking)",
+        "round 2: fix removed `this.manager_.findOne`, `this.manager_.removeAndFlush` with no item asking; asked again",
+        "round 2: note: fixer: The repo outline does not show any existing files in `packages/medusa/src/services/` or `packages/modules/customer/services/` to verify the DI registration pattern. The outline stops before listing those directories. The fixture route at `integration-tests/http/__fixtures__/feature-flag/src/api/custom/route.ts` shows route-level DI with `req.scope.resolve()`, but not how services are registered in the DI container. Without the registration pattern from an existing service file, I cannot write the correct `export const WISHLIST_SERVICE = \"wishlistService\"` constant or the note showing the registration pattern.",
+        "round 3: the critic called it C2, but C2 was about another place",
+        "round 3: the critic numbered it C1; kept as C9",
+        "round 3: raised again (blocking)",
+        "round 3: note: fixer: The repo outline does not show any existing files in `packages/medusa/src/services/` or `packages/modules/customer/services/` to verify the DI registration pattern. The outline stops before listing those directories. The fixture route at `integration-tests/http/__fixtures__/feature-flag/src/api/custom/route.ts` shows route-level DI with `req.scope.resolve()`, but not how services are registered in the DI container. Without the registration pattern from an existing service file, I cannot write the correct `export const WISHLIST_SERVICE = \"wishlistService\"` constant or the note showing the registration pattern."
+      ],
+      "fix_rounds": [],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    },
+    {
+      "id": "C11",
+      "file": "stories/03-medusa-appli.md",
+      "section": "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Function: listWishlistItems",
+      "quote": "const customerModule: ICustomerModuleService = this.customerModuleService_",
+      "match": [
+        [
+          "stories/01-medusa-appli.md",
+          "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Imports and Constructor"
+        ]
+      ],
+      "problem": "Story 3's enhanced `listWishlistItems` references `this.customerModuleService_` with an underscore, but Story 1's constructor sets it without an underscore as `this.customerModuleService`.",
+      "change": "In Story 3's enhanced `listWishlistItems` implementation, replace `this.customerModuleService_` with `this.customerModuleService` to match Story 1's field name.",
+      "status": "fixed",
+      "reason": "no longer raised in round 3",
+      "round": 2,
+      "decision": "",
+      "severity": "blocking",
+      "code_claim": true,
+      "quote_not_found": false,
+      "blocks_because": "Dev would reference `this.customerModuleService_` in Story 3's enhanced `listWishlistItems`, but Story 1's constructor now injects it without the underscore suffix as `this.customerModuleService`. The reference would fail to compile.",
+      "disputed": "The existing code in `integration-tests/http/__tests__/cart/store/cart.spec.ts` shows module resolution without underscores: `const cartModule = appContainer.resolve(Modules.CART)` and `const customerModule = appContainer.resolve(Modules.CUSTOMER)`. The cart test file (provided in repo-file) consistently uses no underscores for module service variables. Story 1's constructor sets `this.customerModuleService = container.resolve(Modules.CUSTOMER)` without an underscore, matching this pattern. Story 3's reference to `this.customerModuleService_` with an underscore does not match Story 1's field name. (its evidence quotes nothing found in the code it was shown)",
+      "earlier": "",
+      "for_person": "not sent to the fixer again: the critic keeps it and the fixer disputes it",
+      "found_by_code": false,
+      "trail": [
+        "round 2: the critic says it is a new problem",
+        "round 2: raised (blocking)",
+        "round 2: fix removed `this.manager_.find` with no item asking; asked again",
+        "round 2: the fixer disputes it: The existing code in `integration-tests/http/__tests__/cart/store/cart.spec.ts` shows module resolution without underscores: `const cartModule = appContainer.resolve(Modules.CART)` and `const customerModule = appContainer.resolve(Modules.CUSTOMER)`. The cart test file (provided in repo-file) consistently uses no underscores for module service variables. Story 1's constructor sets `this.customerModuleService = container.resolve(Modules.CUSTOMER)` without an underscore, matching this pattern. Story 3's reference to `this.customerModuleService_` with an underscore does not match Story 1's field name. (its evidence quotes nothing found in the code it was shown)",
+        "round 2: for a person at the gate: not sent to the fixer again: the critic keeps it and the fixer disputes it",
+        "round 3: fixed: no longer raised in round 3"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    },
+    {
+      "id": "C12",
+      "file": "stories/02-medusa-appli.md",
+      "section": "## File Plan \u203a packages/medusa/src/api/store/wishlist/route.ts \u203a Function: POST",
+      "quote": "const wishlistService = req.scope.resolve(WISHLIST_SERVICE)",
+      "match": [
+        [
+          "repo-file/medusa-appli/integration-tests/http/__fixtures__/feature-flag/src/api/custom/route.ts",
+          ""
+        ]
+      ],
+      "problem": "Story 2's routes use `req.scope.resolve(WISHLIST_SERVICE)` to inject the service, and Story 2's Notes section says \"Story 1 exports `export const WISHLIST_SERVICE = \"wishlistService\"`\", but Story 1's service file does not include this export.",
+      "change": "In Story 1's `packages/medusa/src/services/wishlist.ts`, add `export const WISHLIST_SERVICE = \"wishlistService\"` at the top of the file after the imports, before the class definition. Also add a note showing how to register the service in the DI container (verify the exact pattern by checking an existing service registration in the modules, or note that this follows standard Medusa v2 service registration conventions).",
+      "status": "open",
+      "reason": "for a person at the gate: found late, in text no fix touched",
+      "round": 3,
+      "decision": "",
+      "severity": "blocking",
+      "code_claim": true,
+      "quote_not_found": false,
+      "blocks_because": "Dev would import and use `WISHLIST_SERVICE` as a constant for service resolution in the route handlers, but Story 1 does not export this constant. The route handler would fail to compile with \"Cannot find name 'WISHLIST_SERVICE'\".",
+      "disputed": "",
+      "earlier": "",
+      "for_person": "found late, in text no fix touched",
+      "found_by_code": false,
+      "trail": [
+        "round 3: the critic numbered it C2; kept as C12",
+        "round 3: raised (blocking)",
+        "round 3: for a person at the gate: found late, in text no fix touched",
+        "round 3: open: for a person at the gate: found late, in text no fix touched"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "inline-4664685100",
+      "pr_path": "features/PER-383/stories/02-medusa-appli.md",
+      "pr_line": 49,
+      "pr_seen": []
+    },
+    {
+      "id": "C13",
+      "file": "stories/01-medusa-appli.md",
+      "section": "## Tests \u203a integration-tests/http/__tests__/wishlist/store/wishlist.spec.ts",
+      "quote": "const originalQuery = dbConnection.query",
+      "match": [],
+      "problem": "The test uses `dbConnection.query` to intercept queries for N+1 detection, but the available repo outline does not show whether `dbConnection` has a `query` method or what the actual query logging API is in this codebase. The test may need adjustment to match the real database connection interface.",
+      "change": "(For the person at the gate) Verify the actual query logging or counting pattern used in this codebase's integration tests. If `dbConnection.query` is not the right API, adjust the N+1 test to use the correct method (e.g., MikroORM's query logger, or a different connection method). If no query counter exists, the test can be simplified to verify only that product relations are populated, not the query count.",
+      "status": "note",
+      "reason": "the critic marked it a note",
+      "round": 3,
+      "decision": "",
+      "severity": "note",
+      "code_claim": false,
+      "quote_not_found": false,
+      "blocks_because": "",
+      "disputed": "",
+      "earlier": "",
+      "for_person": "",
+      "found_by_code": false,
+      "trail": [
+        "round 3: the critic says it is a new problem",
+        "round 3: the critic numbered it C3; kept as C13",
+        "round 3: raised (note)",
+        "round 3: note: the critic marked it a note"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    },
+    {
+      "id": "C14",
+      "file": "stories/01-medusa-appli.md",
+      "section": "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Function: addToWishlist",
+      "quote": "this.generateId()",
+      "match": [],
+      "problem": "The `addToWishlist` implementation calls `this.generateId()` with a note to \"verify ID generation pattern in existing services\", but no such method is shown in the available code. The developer needs a concrete way to generate the UUID.",
+      "change": "Replace `this.generateId()` with a direct UUID generation approach that matches this codebase. If existing services show a `generateId` utility, reference it; otherwise, use `import { v4 as uuidv4 } from \"uuid\"` and call `uuidv4()` for the `id` field. Add a note: \"Verify UUID generation pattern in existing services; adjust if a utility function exists.\"",
+      "status": "open",
+      "reason": "for a person at the gate: found late, in text no fix touched",
+      "round": 3,
+      "decision": "",
+      "severity": "blocking",
+      "code_claim": false,
+      "quote_not_found": false,
+      "blocks_because": "Dev would call `this.generateId()` to create a UUID for the wishlist entry, but the service class does not define this method, and the repo outline does not show a `generateId` method in existing services. The method call would fail to compile or throw at runtime.",
+      "disputed": "",
+      "earlier": "",
+      "for_person": "found late, in text no fix touched",
+      "found_by_code": false,
+      "trail": [
+        "round 3: the critic says it is a new problem",
+        "round 3: the critic numbered it C4; kept as C14",
+        "round 3: raised (blocking)",
+        "round 3: for a person at the gate: found late, in text no fix touched",
+        "round 3: open: for a person at the gate: found late, in text no fix touched"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "inline-4664685491",
+      "pr_path": "features/PER-383/stories/01-medusa-appli.md",
+      "pr_line": 154,
+      "pr_seen": []
+    },
+    {
+      "id": "C15",
+      "file": "stories/01-medusa-appli.md",
+      "section": "## File Plan \u203a packages/medusa/src/services/wishlist.ts \u203a Function: addToWishlist",
+      "quote": "if (error.code === \"23505\") {",
+      "match": [],
+      "problem": "The idempotency logic catches a unique constraint violation by checking `error.code === \"23505\"` (PostgreSQL error code), but MikroORM may wrap or transform the error. The exact error structure is not shown in the available code examples.",
+      "change": "(For the person at the gate) Verify the actual error structure returned by MikroORM for unique constraint violations in this codebase. If the error code or field differs, adjust the catch block accordingly. The idempotency requirement (AC 4) must still be met, but the implementation may need to check `error.name`, `error.constraint`, or another field.",
+      "status": "note",
+      "reason": "the critic marked it a note",
+      "round": 3,
+      "decision": "",
+      "severity": "note",
+      "code_claim": false,
+      "quote_not_found": false,
+      "blocks_because": "",
+      "disputed": "",
+      "earlier": "",
+      "for_person": "",
+      "found_by_code": false,
+      "trail": [
+        "round 3: the critic says it is a new problem",
+        "round 3: the critic numbered it C5; kept as C15",
+        "round 3: raised (note)",
+        "round 3: note: the critic marked it a note"
+      ],
+      "fix_rounds": [],
+      "pr_comment": "",
+      "pr_path": "",
+      "pr_line": 0,
+      "pr_seen": []
+    }
+  ]
+}

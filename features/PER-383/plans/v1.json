@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "key": "PER-383",
+  "source": "llm",
+  "summary": "Customer wishlist feature with add/view/remove operations, requiring new API endpoints, database schema for wishlist storage, and UI components across product and wishlist pages; feature_with_architecture fits because it adds new REST endpoints for wishlist CRUD and a new database table to persist wishlist items.",
+  "track_hint": "standard",
+  "loop": "feature_with_architecture",
+  "delivery": "delivery",
+  "pr_fix": [
+    "pr_fix_minor",
+    "pr_fix_moderate"
+  ],
+  "loops": [
+    "feature_with_architecture",
+    "delivery",
+    "pr_fix_minor",
+    "pr_fix_moderate"
+  ],
+  "steps": [
+    {
+      "node": "analyst",
+      "activity": "requirements",
+      "why": "Define clear requirements for wishlist operations, authentication constraints, and UI behaviors.",
+      "instructions": "Focus on the customer-wishlist relationship, persistence requirements, and the add/view/remove operations with their edge cases (duplicates, empty states).",
+      "auto": false,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "architect",
+      "activity": "hld",
+      "why": "Design the wishlist API endpoints, database schema, and integration with existing customer and product modules.",
+      "instructions": "Define REST endpoints for wishlist CRUD operations, wishlist_item schema with customer_id and product_id, and how it integrates with the customer module for authentication.",
+      "auto": false,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "scrum_master",
+      "activity": "breakdown",
+      "why": "Break down into implementable stories: backend (API + DB), frontend (product listing integration), frontend (wishlist page), and tests.",
+      "instructions": "Separate backend API and schema from UI components; product listing wishlist button is one story, dedicated wishlist page is another.",
+      "auto": false,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "designer",
+      "activity": "lld",
+      "why": "Provide file-level implementation plans for each story covering API routes, database migrations, service layer, and UI components.",
+      "instructions": "Detail the wishlist module structure, API route handlers, database entity definitions, and React component files for the wishlist icon and wishlist page.",
+      "auto": false,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "test_architect",
+      "activity": "tests",
+      "why": "Map acceptance criteria to test cases covering API operations, authentication, duplicate handling, and empty states.",
+      "instructions": "Cover API tests for CRUD operations, integration tests for customer-wishlist association, and UI tests for add/remove actions and empty state display.",
+      "auto": false,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "merge_pack",
+      "activity": "pack",
+      "why": "Loop feature_with_architecture: Deterministic merged_plan.md from ordered specs and story summaries.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "critic",
+      "activity": "consistency_check",
+      "why": "Ensure consistency between HLD API contracts, story-level schemas, and test coverage for all acceptance criteria.",
+      "instructions": "",
+      "auto": false,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "architect_gate",
+      "activity": "review",
+      "why": "Human approval of specs and this plan before Dev.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "dev",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "pre_pr_qa",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "open_pr",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "pr_review",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "merge",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    }
+  ],
+  "skipped": [
+    {
+      "node": "tpm_gate",
+      "why": "Ticket clearly defines scope (authenticated customers only), acceptance criteria (10 specific behaviors), and boundaries (no sharing or public wishlists mentioned)."
+    }
+  ],
+  "suggested_roles": [],
+  "suggested_loops": [],
+  "checks": [
+    {
+      "line": "N1",
+      "applies": false,
+      "why": "This is not one story inside one component with unchanged interfaces; it adds new REST API endpoints (POST/GET/DELETE /store/customers/me/wishlist), a new wishlist database table with customer_id and product_id fields, and spans both backend API and frontend UI components.",
+      "feedback_id": ""
+    }
+  ],
+  "notes": [
+    "attempt 1: loop feature_with_architecture is ruled out: you answered that its not-when [N1] applies (one story's worth of work inside one component, and every interface stays as it is → quick_fix or story_with_design). Pick the loop that line points to, or the next loop down whose not-when lines do not apply"
+  ],
+  "created_at": "2026-11-23T10:15:44.773110+00:00",
+  "version": 1,
+  "trigger": "ticket",
+  "gate": null,
+  "feedback": [],
+  "feedback_errors": [],
+  "seen_feedback_ids": [],
+  "change_summary": "",
+  "changes": null,
+  "addressed": [],
+  "unresolved_questions": [],
+  "requires_review": true
+}
