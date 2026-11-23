@@ -12,18 +12,18 @@ Product comparison feature adds UI for selecting and comparing up to 4 products 
 
 ## Steps
 
-1. [ ] **analyst (requirements)** — Translate the ticket into Given/When/Then requirements with clear acceptance criteria for the comparison feature.
+1. [x] **analyst (requirements)** — Translate the ticket into Given/When/Then requirements with clear acceptance criteria for the comparison feature.
    - focus: Focus on the user flows: adding products to comparison from product cards and detail pages, viewing the comparison page, managing the comparison list, and browser storage persistence. Clarify the 4-product limit behavior and duplicate prevention logic.
-2. [ ] **architect (hld)** — Design the component structure, state management approach, and localStorage schema before splitting into implementation stories.
+2. [x] **architect (hld)** — Design the component structure, state management approach, and localStorage schema before splitting into implementation stories.
    - focus: Define the high-level architecture: comparison state management solution (context/store), localStorage schema and sync strategy, component hierarchy (CompareButton, ComparisonPage, ComparisonList), routing structure, and integration points with existing product card and detail page components.
-3. [ ] **scrum_master (breakdown)** — Break down the comparison feature into implementable stories for separate pickup.
+3. [x] **scrum_master (breakdown)** — Break down the comparison feature into implementable stories for separate pickup.
    - focus: Split into logical stories such as: comparison state management setup, CompareButton integration in product cards, CompareButton integration in product detail pages, comparison page UI, localStorage persistence, and any necessary routing changes.
-4. [ ] **designer (lld)** — Each story needs a concrete file plan showing which components to create or modify and how.
+4. [x] **designer (lld)** — Each story needs a concrete file plan showing which components to create or modify and how.
    - focus: For each story, specify the files to create or modify, component structure, props interfaces, state hooks, localStorage utility functions, and integration points with existing code.
-5. [ ] **test_architect (tests)** — The acceptance criteria include specific behaviors that should be pinned as test cases per story.
+5. [x] **test_architect (tests)** — The acceptance criteria include specific behaviors that should be pinned as test cases per story.
    - focus: Map test cases 1:1 to acceptance criteria across stories: adding products from different entry points, enforcing the 4-product limit, preventing duplicates, displaying comparison data, removing products, clearing all, and verifying localStorage persistence.
-6. [ ] **merge_pack (pack)** _(auto)_ — Loop feature_with_architecture: Deterministic merged_plan.md from ordered specs and story summaries.
-7. [ ] **critic (consistency_check)** — Cross-check that requirements, HLD, breakdown, and story LLDs agree on the component structure, state management, and localStorage schema.
+6. [x] **merge_pack (pack)** _(auto)_ — Loop feature_with_architecture: Deterministic merged_plan.md from ordered specs and story summaries.
+7. [x] **critic (consistency_check)** — Cross-check that requirements, HLD, breakdown, and story LLDs agree on the component structure, state management, and localStorage schema.
    - focus: Verify consistency between the HLD's architecture decisions and each story's implementation details, ensuring the state management approach and localStorage schema are implemented uniformly across all stories.
 8. [ ] **architect_gate (review)** _(auto)_ — Human approval of specs and this plan before Dev.
 9. [ ] **dev** _(auto)_ — Loop delivery.
