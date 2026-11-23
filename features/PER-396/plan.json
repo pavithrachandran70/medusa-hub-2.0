@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "key": "PER-396",
+  "source": "llm",
+  "summary": "Product comparison feature adds UI for selecting and comparing up to 4 products side-by-side with persistence in browser storage; fits feature_with_architecture as N2 applies per the rejection feedback, requiring HLD and story breakdown.",
+  "track_hint": "standard",
+  "loop": "feature_with_architecture",
+  "delivery": "delivery",
+  "pr_fix": [
+    "pr_fix_minor",
+    "pr_fix_moderate"
+  ],
+  "loops": [
+    "feature_with_architecture",
+    "delivery",
+    "pr_fix_minor",
+    "pr_fix_moderate"
+  ],
+  "steps": [
+    {
+      "node": "analyst",
+      "activity": "requirements",
+      "why": "Translate the ticket into Given/When/Then requirements with clear acceptance criteria for the comparison feature.",
+      "instructions": "Focus on the user flows: adding products to comparison from product cards and detail pages, viewing the comparison page, managing the comparison list, and browser storage persistence. Clarify the 4-product limit behavior and duplicate prevention logic.",
+      "auto": false,
+      "status": "done",
+      "rerun": false
+    },
+    {
+      "node": "architect",
+      "activity": "hld",
+      "why": "Design the component structure, state management approach, and localStorage schema before splitting into implementation stories.",
+      "instructions": "Define the high-level architecture: comparison state management solution (context/store), localStorage schema and sync strategy, component hierarchy (CompareButton, ComparisonPage, ComparisonList), routing structure, and integration points with existing product card and detail page components.",
+      "auto": false,
+      "status": "done",
+      "rerun": false
+    },
+    {
+      "node": "scrum_master",
+      "activity": "breakdown",
+      "why": "Break down the comparison feature into implementable stories for separate pickup.",
+      "instructions": "Split into logical stories such as: comparison state management setup, CompareButton integration in product cards, CompareButton integration in product detail pages, comparison page UI, localStorage persistence, and any necessary routing changes.",
+      "auto": false,
+      "status": "done",
+      "rerun": false
+    },
+    {
+      "node": "designer",
+      "activity": "lld",
+      "why": "Each story needs a concrete file plan showing which components to create or modify and how.",
+      "instructions": "For each story, specify the files to create or modify, component structure, props interfaces, state hooks, localStorage utility functions, and integration points with existing code.",
+      "auto": false,
+      "status": "done",
+      "rerun": false
+    },
+    {
+      "node": "test_architect",
+      "activity": "tests",
+      "why": "The acceptance criteria include specific behaviors that should be pinned as test cases per story.",
+      "instructions": "Map test cases 1:1 to acceptance criteria across stories: adding products from different entry points, enforcing the 4-product limit, preventing duplicates, displaying comparison data, removing products, clearing all, and verifying localStorage persistence.",
+      "auto": false,
+      "status": "done",
+      "rerun": false
+    },
+    {
+      "node": "merge_pack",
+      "activity": "pack",
+      "why": "Loop feature_with_architecture: Deterministic merged_plan.md from ordered specs and story summaries.",
+      "instructions": "",
+      "auto": true,
+      "status": "done",
+      "rerun": false
+    },
+    {
+      "node": "critic",
+      "activity": "consistency_check",
+      "why": "Cross-check that requirements, HLD, breakdown, and story LLDs agree on the component structure, state management, and localStorage schema.",
+      "instructions": "Verify consistency between the HLD's architecture decisions and each story's implementation details, ensuring the state management approach and localStorage schema are implemented uniformly across all stories.",
+      "auto": false,
+      "status": "done",
+      "rerun": false
+    },
+    {
+      "node": "architect_gate",
+      "activity": "review",
+      "why": "Human approval of specs and this plan before Dev.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "dev",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "pre_pr_qa",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "open_pr",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "pr_review",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    },
+    {
+      "node": "merge",
+      "activity": null,
+      "why": "Loop delivery.",
+      "instructions": "",
+      "auto": true,
+      "status": "pending",
+      "rerun": false
+    }
+  ],
+  "skipped": [
+    {
+      "node": "tpm_gate",
+      "why": "The ticket clearly states the scope (comparison of up to 4 products with specific display fields) and acceptance criteria; no product sign-off is needed."
+    }
+  ],
+  "suggested_roles": [],
+  "suggested_loops": [],
+  "checks": [
+    {
+      "line": "N1",
+      "applies": false,
+      "why": "The ticket describes one cohesive feature that could be implemented as one story if not for the file complexity; it adds UI and browser-side state only, no work splitting into separate developer pickups based on functional boundaries.",
+      "feedback_id": ""
+    }
+  ],
+  "notes": [
+    "attempt 1: loop story_with_design is ruled out: you answered that its not-when [N2] applies (the work splits into stories a developer would pick up separately → feature_with_architecture). Pick the loop that line points to, or the next loop down whose not-when lines do not apply"
+  ],
+  "created_at": "2026-11-23T12:22:42.325595+00:00",
+  "version": 1,
+  "trigger": "ticket",
+  "gate": null,
+  "feedback": [],
+  "feedback_errors": [],
+  "seen_feedback_ids": [],
+  "change_summary": "",
+  "changes": null,
+  "addressed": [],
+  "unresolved_questions": [],
+  "requires_review": true
+}
